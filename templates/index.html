@@ -1,20 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Weather</title>
-</head>
-<body>
-
-<form method="post" action="/temperature/">
-    {% csrf_token %}
-    City: <input type="text" name="city" id="city">
-    Period : <input type="number" name="period" id="period">
-    <input type="submit">
-</form>
-
+{% extends 'admin/base_site.html' %}
 {% block content %}
-    {{ tem_max }}
+    <form method="post" action="/temperature/">
+        {% csrf_token %}
+        City: <input type="text" name="city" id="city">
+        Period (Number of days from 1 to 16 days) : <input type="number" name="period" id="period">
+        <input type="submit">
+    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                <canvas width="200" height="200" id="average_temperature"></canvas>
+            </div>
+            <div class="col-xs-6">
+                <canvas width="200" height="200" id="max_temp"></canvas>
+            </div>
+            <div class="col-xs-6">
+                <canvas width="200" height="200" id="min_temp"></canvas>
+            </div>
+            <div class="col-xs-6">
+                <canvas width="200" height="200" id="median_temp"></canvas>
+            </div>
+            <div class="col-xs-6">
+                <canvas width="200" height="200" id="humidity"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+
+        var config1 = {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    data: {{ data_temp|safe }},
+                    backgroundColor: [
+                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                    ],
+                    label: 'Average Temperature'
+                }],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        };
+
+        var config2 = {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{
+                    data: {{ data_max_temp|safe }},
+                    backgroundColor: [
+                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                    ],
+                    label: 'Maxinum Temperature'
+                }],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        };
+
+        var config3 = {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: {{ data_min_temp|safe }},
+                    backgroundColor: [
+                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                    ],
+                    label: 'Min Temperature'
+                }],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        };
+
+        var config4 = {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    data: {{ data_humidity|safe }},
+                    backgroundColor: [
+                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                    ],
+                    label: 'Humidity'
+                }],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        };
+
+        var config5 = {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: {{ data_tem_median|safe }},
+                    backgroundColor: [
+                        'rgba(0, 0, 0, 0.1)'
+                    ],
+                    borderColor :  [
+                        'rgba(0, 0, 0, 0.1)'
+                    ],
+                    label: 'Median Temperature'
+                }],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
+            }
+        };
+
+        window.onload = function () {
+            var ctx1 = document.getElementById('average_temperature').getContext('2d');
+            var ctx3 = document.getElementById('min_temp').getContext('2d');
+            var ctx2 = document.getElementById('max_temp').getContext('2d');
+            var ctx4 = document.getElementById('humidity').getContext('2d');
+            var ctx5 = document.getElementById('median_temp').getContext('2d');
+            window.myPie = new Chart(ctx1, config1);
+            window.myPie = new Chart(ctx2, config2);
+            window.myPie = new Chart(ctx3, config3);
+            window.myPie = new Chart(ctx4, config4);
+            window.myPie = new Chart(ctx5, config5);
+        };
+
+
+    </script>
 {% endblock content %}
-</body>
-</html>
