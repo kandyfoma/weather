@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+</head>
+<body>
+
+<form method="post" action="/temperature/">
+    {% csrf_token %}
+    City: <input type="text" name="city" id="city">
+    Period : <input type="number" name="period" id="period">
+    <input type="submit">
+</form>
+
+{% block content %}
+    {{ tem_max }}
+{% endblock content %}
+</body>
+</html>
