@@ -1,10 +1,10 @@
 {% extends 'admin/base_site.html' %}
 {% block content %}
     <div class="container">
-    <h1> Fun weather testing</h1>
-    <p>
-        This API allows the user the get a weather report using open weather map
-    </p>
+        <h1> Fun weather testing</h1>
+        <p>
+            This API allows the user the get a weather report using open weather map
+        </p>
     </div>
     <div class="container">
         <form method="post" action="/temperature/">
@@ -21,27 +21,29 @@
             <input class="btn btn-primary" type="submit">
         </form>
     </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-6">
-                <canvas width="400" height="400" id="average_temperature"></canvas>
-            </div>
-            <div class="col-xs-6">
-                <canvas width="400" height="400" id="median_temp"></canvas>
-            </div>
-            <div class="col-xs-6">
-                <canvas width="400" height="400" id="max_temp"></canvas>
-            </div>
-            <div class="col-xs-6">
-                <canvas width="400" height="400" id="min_temp"></canvas>
-            </div>
-            <div class="col-xs-6">
-                <canvas width="400" height="400" id="humidity"></canvas>
+    {% if not error_message %}
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-6">
+                    <canvas width="400" height="400" id="average_temperature"></canvas>
+                </div>
+                <div class="col-xs-6">
+                    <canvas width="400" height="400" id="median_temp"></canvas>
+                </div>
+                <div class="col-xs-6">
+                    <canvas width="400" height="400" id="max_temp"></canvas>
+                </div>
+                <div class="col-xs-6">
+                    <canvas width="400" height="400" id="min_temp"></canvas>
+                </div>
+                <div class="col-xs-6">
+                    <canvas width="400" height="400" id="humidity"></canvas>
+                </div>
             </div>
         </div>
-    </div>
-
+    {% else %}
+        <div class="container"><p>{{ error_message }}</p></div>
+    {% endif %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script>
@@ -87,7 +89,7 @@
             data: {
                 datasets: [{
                     data: {{ data_min_temp|safe }},
-                   backgroundColor: [
+                    backgroundColor: [
                         '#0000cd', '#483d8b', '#191970', '#C0C0C0', '#191970'
                     ],
                     label: 'Min Temperature'
@@ -123,7 +125,7 @@
             data: {
                 datasets: [{
                     data: {{ data_tem_median|safe }},
-                     backgroundColor: [
+                    backgroundColor: [
                         '#ff0000', '#ffa07a', '#f08080', '#ff6347', '#cd5c5c', '#da1d81', '#ee82ee', '#a50b5e'
                     ],
                     label: 'Median Temperature'

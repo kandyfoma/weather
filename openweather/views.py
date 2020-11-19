@@ -19,7 +19,7 @@ def weather_request(request):
     humidity = []
     tem_median = []
     days = [x for x in range(1, int(period) + 1)]
-    error_message = ''
+    error_message = None
 
     URL = BASE_URL + "q=" + city + "&units=metric&cnt=" + period + "&lang=en" + "&appid=" + API_KEY
 
@@ -48,7 +48,7 @@ def weather_request(request):
         }
     else:
         # showing the error message
-        error_message = "Please try again"
+        error_message = "Please try using conrrect city name"
 
     return render(request, 'index.html', {
         'labels': days,
