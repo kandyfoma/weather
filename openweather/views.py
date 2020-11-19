@@ -19,6 +19,7 @@ def weather_request(request):
     humidity = []
     tem_median = []
     days = [x for x in range(1, int(period) + 1)]
+    error_message = ''
 
     URL = BASE_URL + "q=" + city + "&units=metric&cnt=" + period + "&lang=en" + "&appid=" + API_KEY
 
@@ -47,7 +48,7 @@ def weather_request(request):
         }
     else:
         # showing the error message
-        print("Error in the HTTP request")
+        error_message = "Please try again"
 
     return render(request, 'index.html', {
         'labels': days,
@@ -56,5 +57,6 @@ def weather_request(request):
         'data_min_temp': temp_min,
         'data_humidity': humidity,
         'data_tem_median': tem_median,
+        'error_message': error_message
 
     })

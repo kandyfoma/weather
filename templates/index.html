@@ -1,27 +1,43 @@
 {% extends 'admin/base_site.html' %}
 {% block content %}
-    <form method="post" action="/temperature/">
-        {% csrf_token %}
-        City: <input type="text" name="city" id="city">
-        Period (Number of days from 1 to 16 days) : <input type="number" name="period" id="period">
-        <input type="submit">
-    </form>
+    <div class="container">
+    <h1> Fun weather testing</h1>
+    <p>
+        This API allows the user the get a weather report using open weather map
+    </p>
+    </div>
+    <div class="container">
+        <form method="post" action="/temperature/">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>City: </label>
+                <input class="form-control" type="text" name="city" id="city" placeholder="City Name">
+            </div>
+            <div class="form-group">
+                <label>Period</label>
+                <input class="form-control" type="number" name="period" id="period"
+                       placeholder="Number of days from 1 to 16 days">
+            </div>
+            <input class="btn btn-primary" type="submit">
+        </form>
+    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-xs-6">
-                <canvas width="200" height="200" id="average_temperature"></canvas>
+                <canvas width="400" height="400" id="average_temperature"></canvas>
             </div>
             <div class="col-xs-6">
-                <canvas width="200" height="200" id="max_temp"></canvas>
+                <canvas width="400" height="400" id="median_temp"></canvas>
             </div>
             <div class="col-xs-6">
-                <canvas width="200" height="200" id="min_temp"></canvas>
+                <canvas width="400" height="400" id="max_temp"></canvas>
             </div>
             <div class="col-xs-6">
-                <canvas width="200" height="200" id="median_temp"></canvas>
+                <canvas width="400" height="400" id="min_temp"></canvas>
             </div>
             <div class="col-xs-6">
-                <canvas width="200" height="200" id="humidity"></canvas>
+                <canvas width="400" height="400" id="humidity"></canvas>
             </div>
         </div>
     </div>
@@ -36,7 +52,7 @@
                 datasets: [{
                     data: {{ data_temp|safe }},
                     backgroundColor: [
-                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                        '#ff0000', '#ffa07a', '#f08080', '#ff6347', '#cd5c5c', '#da1d81', '#ee82ee', '#a50b5e'
                     ],
                     label: 'Average Temperature'
                 }],
@@ -44,7 +60,7 @@
             },
             options: {
                 maintainAspectRatio: false,
-                responsive: true
+                responsive: true,
             }
         };
 
@@ -54,9 +70,9 @@
                 datasets: [{
                     data: {{ data_max_temp|safe }},
                     backgroundColor: [
-                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                        '#0000cd', '#483d8b', '#191970', '#C0C0C0', '#191970'
                     ],
-                    label: 'Maxinum Temperature'
+                    label: 'Maximum Temperature'
                 }],
                 labels: {{ labels|safe }}
             },
@@ -67,12 +83,12 @@
         };
 
         var config3 = {
-            type: 'line',
+            type: 'horizontalBar',
             data: {
                 datasets: [{
                     data: {{ data_min_temp|safe }},
-                    backgroundColor: [
-                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                   backgroundColor: [
+                        '#0000cd', '#483d8b', '#191970', '#C0C0C0', '#191970'
                     ],
                     label: 'Min Temperature'
                 }],
@@ -90,7 +106,7 @@
                 datasets: [{
                     data: {{ data_humidity|safe }},
                     backgroundColor: [
-                        '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+                        '#cf3476', '#cc00ff', '#df00ff', '#ff0090', '#ca2c92'
                     ],
                     label: 'Humidity'
                 }],
@@ -103,15 +119,12 @@
         };
 
         var config5 = {
-            type: 'line',
+            type: 'bar',
             data: {
                 datasets: [{
                     data: {{ data_tem_median|safe }},
-                    backgroundColor: [
-                        'rgba(0, 0, 0, 0.1)'
-                    ],
-                    borderColor :  [
-                        'rgba(0, 0, 0, 0.1)'
+                     backgroundColor: [
+                        '#ff0000', '#ffa07a', '#f08080', '#ff6347', '#cd5c5c', '#da1d81', '#ee82ee', '#a50b5e'
                     ],
                     label: 'Median Temperature'
                 }],
