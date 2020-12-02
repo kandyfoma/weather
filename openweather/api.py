@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from rest_framework.views import APIView
 import requests, json
 
@@ -30,3 +30,7 @@ class WeatherApiView(APIView):
                                            "humidity": list_weather[i]['main']['humidity'],
                                            }
             return HttpResponse(json.dumps(temperature_data), content_type="application/json")
+
+        else:
+            # showing the error message
+            return HttpResponseNotFound('<h1>City ' + city + ' doesnt exist</h1>')
