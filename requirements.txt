@@ -1,2 +1,3 @@
 django
 django-chartjs
+djangorestframework

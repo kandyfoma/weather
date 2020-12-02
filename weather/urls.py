@@ -20,4 +20,6 @@ from openweather.views import index, weather_request
 urlpatterns = [
     url(r'^$', index, name='list'),
     url(r'^temperature/$', weather_request, name='temperature'),
+    url(r'^temperature/(?P<city>.+)/(?P<period>\d+)/$', WeatherApiView.as_view(),
+        name='city-temperature'),
 ]

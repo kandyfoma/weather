@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'openweather.apps.OpenweatherConfig',
     'chartjs',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
