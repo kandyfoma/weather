@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.conf.urls import url
 from openweather.views import index, weather_request
+from openweather.api import WeatherApiView
 
 urlpatterns = [
     url(r'^$', index, name='list'),
