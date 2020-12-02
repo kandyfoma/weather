@@ -14,13 +14,13 @@ class WeatherApiView(APIView):
         URL = BASE_URL + "q=" + city + "&units=metric&cnt=" + period + "&lang=en" + "&appid=" + API_KEY
 
         response = requests.get(URL)
+        temperature_data = {}
         # checking the status code of the request
         if response.status_code == 200:
             # getting data in the json format
             data = response.json()
             # getting the main dict block
             list_weather = data['list']
-            temperature_data = {}
             for i in range(len(list_weather)):
                 median = (list_weather[i]['main']['temp_min'] + list_weather[i]['main']['temp_max']) / 2
                 temperature_data[i + 1] = {"temperature": list_weather[i]['main']['temp'],
@@ -32,5 +32,6 @@ class WeatherApiView(APIView):
             return HttpResponse(json.dumps(temperature_data), content_type="application/json")
 
         else:
-            # showing the error message
-            return HttpResponseNotFound('<h1>City ' + city + ' doesnt exist</h1>')
+            temperature_data[0] = {"error": " City " + city + " doesnt exist"}
+
+            return HttpResponseNotFound(json.dumps(temperature_data), content_type="application/json")
